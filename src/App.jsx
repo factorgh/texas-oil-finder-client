@@ -13,10 +13,12 @@ import OperatorPage from "./pages/operator";
 import PermitsPage from "./pages/permits";
 import PricingPage from "./pages/pricing";
 import ProducingOperatorDetails from "./pages/producing_operator_details";
+import Profile from "./pages/profile";
 import RegisterPage from "./pages/register";
 import SearchPage from "./pages/search";
 
 function App() {
+  const userId = localStorage.getItem("user");
   return (
     <BrowserRouter>
       <Routes>
@@ -104,9 +106,13 @@ function App() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<Profile />} />
 
         {/* Stripe routes */}
-        <Route path="/checkout" element={<SubscriptionPlans userId="1" />} />
+        <Route
+          path="/checkout"
+          element={<SubscriptionPlans userId={userId} />}
+        />
         <Route path="/success" element={<Success />} />
         <Route path="/cancel" element={<Cancel />} />
       </Routes>

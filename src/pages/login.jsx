@@ -11,10 +11,11 @@ const LoginPage = () => {
       const res = await login(values);
       console.log("Login successful:", res);
       // Store the token and user in local storage
-      const { token, user } = res;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      const { access_token, userId, is_subscribed } = res;
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("user", userId);
       localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("is_subscribed", is_subscribed);
       navigate("/");
       message.success("You have logged in successfully!");
     } catch (error) {
