@@ -1,10 +1,29 @@
 import { Divider } from "antd";
+import { useEffect } from "react";
 import MyCardWithList from "../components/common/card-list";
 import HighestCounty from "../components/common/highest-county-list";
 import SubscriptionPlans from "../components/stripe/subscriptions";
+import { getUserSubscriptionStatus } from "./../services/auth";
 import drillImage from "/drill.jpg";
 
 const HomePage = () => {
+  const userId = localStorage.getItem("user");
+  useEffect(() => {
+    if (!userId) return; // Prevent API call if userId is null
+
+    const checkSubscription = async () => {
+      try {
+        const data = await getUserSubscriptionStatus(userId);
+        localStorage.setItem("is_subscribed", data.is_subscribed);
+        localStorage.setItem("subscription_status", data.subscription_status);
+      } catch (error) {
+        console.error("Error fetching subscription:", error);
+      }
+    };
+
+    checkSubscription();
+  }, [userId]);
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50">
@@ -28,7 +47,7 @@ const HomePage = () => {
             Tailored plan for full access to the platform
           </h3>
         </div>
-        <SubscriptionPlans userId={1111} />
+        <SubscriptionPlans />
       </div>
       <Divider className="mt-10" />
     </div>

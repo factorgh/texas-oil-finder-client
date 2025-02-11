@@ -1,18 +1,14 @@
-/* eslint-disable react/prop-types */
-import { Navigate, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "./header";
 import Hero from "./hero";
 import Tabs from "./tabs";
 
-const Layout = ({ children }) => {
-  const is_subscribed = localStorage.getItem("is_subscribed") === "true";
-  const location = useLocation();
+const Layout = () => {
+  const isSubscribed = localStorage.getItem("is_subscribed") || false;
+  console.log(isSubscribed);
 
-  // List of routes allowed even if the user is not subscribed
-  const allowedRoutes = ["/"];
-
-  if (!is_subscribed && !allowedRoutes.includes(location.pathname)) {
-    return <Navigate to="/" />;
+  if (isSubscribed === null) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -22,7 +18,9 @@ const Layout = ({ children }) => {
       <div className="container mx-auto">
         <Tabs />
       </div>
-      <div className="container mx-auto py-10 flex-1">{children}</div>
+      <div className="container mx-auto py-10 flex-1">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -13,11 +13,15 @@ const Header = () => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
+  useEffect(() => {}, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("isLoggedIn");
+    localStorage.setItem("is_subscribed", false);
+    localStorage.setItem("subscription_status", "inactive");
     setIsLoggedIn(false);
+    window.location.href = "/";
   };
 
   return (

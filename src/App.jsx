@@ -2,8 +2,8 @@ import "leaflet/dist/leaflet.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/core/layout";
+import ProtectedRoute from "./components/core/protectedRoute";
 import Cancel from "./components/stripe/cancel";
-import SubscriptionPlans from "./components/stripe/subscriptions";
 import Success from "./components/stripe/success";
 import HomePage from "./pages/home";
 import LeasesPage from "./pages/leases";
@@ -18,103 +18,87 @@ import RegisterPage from "./pages/register";
 import SearchPage from "./pages/search";
 
 function App() {
-  const userId = localStorage.getItem("user");
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          exact
-          path="/home"
-          element={
-            <Layout>
-              <HomePage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/"
-          element={
-            <Layout>
-              <HomePage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/permits"
-          element={
-            <Layout>
-              <PermitsPage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/leases"
-          element={
-            <Layout>
-              <LeasesPage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/operator"
-          element={
-            <Layout>
-              <OperatorPage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/pricing"
-          element={
-            <Layout>
-              <PricingPage />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/counties/oil-gas"
-          element={
-            <Layout>
-              <OilGasDetail />
-            </Layout>
-          }
-        />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route
+            path="permits"
+            element={
+              <ProtectedRoute>
+                <PermitsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="leases"
+            element={
+              <ProtectedRoute>
+                <LeasesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="operator"
+            element={
+              <ProtectedRoute>
+                <OperatorPage />{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="pricing"
+            element={
+              <ProtectedRoute>
+                <PricingPage />{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="counties/oil-gas"
+            element={
+              <ProtectedRoute>
+                <OilGasDetail />{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="counties/oil-gas/operator"
+            element={
+              <ProtectedRoute>
+                <ProducingOperatorDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="search"
+            element={
+              <ProtectedRoute>
+                <SearchPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
-        <Route
-          exact
-          path="/counties/oil-gas/operator"
-          element={
-            <Layout>
-              <ProducingOperatorDetails />
-            </Layout>
-          }
-        />
-        <Route
-          exact
-          path="/search"
-          element={
-            <Layout>
-              <SearchPage />
-            </Layout>
-          }
-        />
+        {/* No Layout */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<Profile />} />
 
         {/* Stripe routes */}
-        <Route
-          path="/checkout"
-          element={<SubscriptionPlans userId={userId} />}
-        />
+        {/* <Route path="/checkout" element={<SubscriptionPlans />} /> */}
         <Route path="/success" element={<Success />} />
         <Route path="/cancel" element={<Cancel />} />
+        <Route
+          path="*"
+          element={
+            <div className="text-3xl h-screen flex items-center justify-center">
+              404 Page Not Found
+            </div>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

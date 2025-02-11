@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import Lottie from "lottie-react";
 import lottieJson from "../../assets/payment.json";
 import { createCheckoutSession } from "../../services/auth";
@@ -17,11 +15,19 @@ const blackItems = [
   { text: "Data Exporting", included: true },
 ];
 
-const SubscriptionPlans = ({ userId }) => {
-  const handleSubscribe = async (priceId) => {
+const SubscriptionPlans = () => {
+  const userId = localStorage.getItem("user");
+  const handleSubscribe = async (price) => {
     try {
-      const sessionUrl = await createCheckoutSession(userId, priceId);
-      window.location.href = sessionUrl;
+      const response = await createCheckoutSession(userId, price);
+      console.log("Stripe Response:", response); // ✅ Check the full response
+
+      if (response.session_url) {
+        console.log("Redirecting to:", response.session_url);
+        window.open(response.session_url, "_blank"); // ✅ Open in a new tab
+      } else {
+        console.error("Missing session URL:", response);
+      }
     } catch (error) {
       console.error("Subscription error:", error);
     }
@@ -48,7 +54,7 @@ const SubscriptionPlans = ({ userId }) => {
         <div className="flex items-center justify-center p-6">
           <PricingCard
             title="Light Crude"
-            price={9.99}
+            price={Number(9)}
             items={blackItems}
             height="h-auto md:h-[600px]"
             handleSubscribe={handleSubscribe}

@@ -15,6 +15,14 @@ const PricingCard = ({
     >
       <h3 className="text-xl font-semibold text-blue-800">{title}</h3>
       <p className="text-3xl font-bold text-gray-900 mt-2">${price}/month</p>
+
+      <Button
+        type="primary"
+        className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-700"
+        onClick={() => handleSubscribe(price)}
+      >
+        Get Started
+      </Button>
       <Divider>
         <span className="text-gray-600">Features Included</span>
       </Divider>
@@ -36,13 +44,6 @@ const PricingCard = ({
           </li>
         ))}
       </ul>
-      <Button
-        type="primary"
-        className="mt-5 w-full p-5 bg-blue-600 hover:bg-blue-700"
-        onClick={() => handleSubscribe(price)}
-      >
-        Get Started
-      </Button>
     </div>
   );
 };

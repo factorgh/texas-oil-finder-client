@@ -11,6 +11,7 @@ const RegisterPage = () => {
       const res = await register(values);
       console.log("registration successful:", res);
       const { token, userId } = res;
+      localStorage.clear();
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(userId));
       localStorage.setItem("isLoggedIn", true);
