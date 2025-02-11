@@ -80,12 +80,19 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         {/* No Layout */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<Profile />} />
 
         {/* Stripe routes */}
         {/* <Route path="/checkout" element={<SubscriptionPlans />} /> */}

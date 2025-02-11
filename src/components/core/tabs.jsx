@@ -1,12 +1,13 @@
-import { FileText, Home, Layers, Search, User } from "lucide-react";
+import { FileText, Home, Layers, Search, User, UserCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUserSubscriptionStatus } from "../../services/auth";
 
 const Tabs = () => {
   const isSub = JSON.parse(localStorage.getItem("is_subscribed") || "false"); // ✅ Ensure boolean value
   const [isSubscribed, setIsSubscribed] = useState(isSub);
   const [subStatus, setSubStatus] = useState("");
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "home"
   );
@@ -45,6 +46,11 @@ const Tabs = () => {
     { name: "Leases", value: "leases", icon: <Layers /> },
     { name: "Search", value: "search", icon: <Search /> },
   ];
+
+  const handleClick = () => {
+    setActiveTab("profile");
+    navigate(`/profile`);
+  };
 
   return (
     <div className="-mt-8 p-4 bg-blue-100 rounded-lg shadow-lg grid grid-cols-2 lg:grid-cols-6 2xl:grid-cols-5 items-center gap-4">
@@ -90,6 +96,16 @@ const Tabs = () => {
           </Link>
         );
       })}
+      <div className="flex items-center justify-center cursor-pointer">
+        <UserCircle
+          onClick={handleClick}
+          className={
+            activeTab === "profile"
+              ? "text-blue-500"
+              : "text-gray-600 hover:text-blue-500"
+          }
+        />
+      </div>
     </div>
   );
 };

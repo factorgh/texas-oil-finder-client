@@ -127,3 +127,24 @@ export const deleteUserProfile = async (userId) => {
     throw error;
   }
 };
+
+// Billing history
+export const getSubscriptionHistory = async (userId) => {
+  try {
+    const response = await axiosInstance.get(`/billing/history/${userId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching subscription history:", error);
+    throw error;
+  }
+};
+
+export const getBillingDueDate = async (userId) => {
+  try {
+    const response = await axiosInstance.get(`/billing/due-date/${userId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching billing due date:", error);
+    throw error;
+  }
+};

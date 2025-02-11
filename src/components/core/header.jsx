@@ -33,12 +33,12 @@ const Header = () => {
         <span className="flex space-x-2">
           {isLoggedIn ? (
             <>
-              <Link
+              {/* <Link
                 className="flex items-center text-white px-3 font-bold hover:bg-blue-600"
                 to="/profile"
               >
                 My Profile
-              </Link>
+              </Link> */}
 
               <Button type="default" onClick={handleLogout}>
                 Sign Out
