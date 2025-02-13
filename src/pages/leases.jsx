@@ -1,4 +1,4 @@
-import TopOperators from "../components/common/top-operators";
+import ReusableList from "../components/common/reusableList";
 
 const LeasesPage = () => {
   return (
@@ -8,11 +8,11 @@ const LeasesPage = () => {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
         <div className="col-span-1">
-          <TopOperators title="Top Operators by Production" />
+          <ReusableList prefix={`Leases`} title="Top Leases by Production" />
         </div>
         <div className="flex col-span-2">
-          <TopOperators title="Drilling permit by County" />
-          <TopOperators title="" />
+          <ReusableList prefix={`Leases`} title="Leases by County" />
+          <ReusableList prefix={`Leases`} title="" />
         </div>
       </div>
     </div>

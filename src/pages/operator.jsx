@@ -1,4 +1,4 @@
-import TopOperators from "../components/common/top-operators";
+import ReusableList from "../components/common/reusableList";
 
 const OperatorPage = () => {
   return (
@@ -8,11 +8,14 @@ const OperatorPage = () => {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
         <div className="col-span-1">
-          <TopOperators title="Top Operators by Production" />
+          <ReusableList
+            prefix={`Operator`}
+            title="Top Operators by Production"
+          />
         </div>
         <div className="flex col-span-2">
-          <TopOperators title="Drilling permit by County" />
-          <TopOperators title="" />
+          <ReusableList prefix={`Operator`} title="Operator by County" />
+          <ReusableList prefix={`Operator`} title="" />
         </div>
       </div>
     </div>

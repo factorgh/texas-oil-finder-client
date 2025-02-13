@@ -6,9 +6,6 @@ const ProtectedRoute = ({ children }) => {
     localStorage.getItem("is_subscribed") || "false"
   );
 
-  console.log("--------------------------subscribed-----------------------");
-  console.log(isSubscribed);
-
   if (!isSubscribed) {
     return <Navigate to="/" replace />;
   }

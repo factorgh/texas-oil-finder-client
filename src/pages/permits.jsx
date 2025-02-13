@@ -1,7 +1,10 @@
 import CustomChart from "../components/common/custom-chart";
-import TopOperators from "../components/common/top-operators";
+import ReusableList from "../components/common/reusableList";
+import Reusab from "../components/common/reusableList";
+import useCounties from "../hooks/useCounties";
 
 const PermitsPage = () => {
+  const counties = useCounties();
   return (
     <div>
       <CustomChart />
@@ -9,12 +12,14 @@ const PermitsPage = () => {
       {/* Other tables */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10 bg-gray-50">
         <div className="col-span-1">
-          <TopOperators title="Top Operators by Production" />
+          <Reusab title="Top Operators by Production" />
         </div>
-        <div className="flex col-span-2">
-          <TopOperators title="Drilling permit by County" />
-          <TopOperators title="" />
-        </div>
+        <ReusableList
+          prefix="Permit"
+          data={counties || []}
+          title="Drilling permit by County"
+        />
+        <ReusableList prefix="Permit" data={[]} title="" />
       </div>
     </div>
   );

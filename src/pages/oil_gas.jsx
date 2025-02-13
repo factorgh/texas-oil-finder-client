@@ -1,6 +1,7 @@
 import MyCardWithList from "../components/common/card-list";
 import CustomChart from "../components/common/custom-chart";
-import TopOperators from "../components/common/top-operators";
+import ReusableList from "../components/common/reusableList";
+
 import TopProducingOperators from "../components/common/top-producing-operators";
 
 const OilGasDetail = () => {
@@ -13,7 +14,10 @@ const OilGasDetail = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
         <div className="col-span-1 flex flex-col gap-8">
           <TopProducingOperators title="Top Producing Operators in Anderson County, TX" />
-          <TopOperators title="Top Producing Leases in Anderson County, TX" />
+          <ReusableList
+            prefix="Oil / Gas"
+            title="Top Producing Leases in Anderson County, TX"
+          />
         </div>
         <div className="flex col-span-1">
           <MyCardWithList title="Summary of Data in Anderson County, TX" />
