@@ -11,11 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
 
 const ReusableList = ({ title, prefix }) => {
   const [highestCounty, setHighestCounty] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const naviagte = useNavigate();
+  const handleNavigate = (id) => {
+    naviagte(`/details/${prefix}`, { state: { id } });
+  };
 
   const fetchHighestCounty = async () => {
     setIsLoading(true);
@@ -74,6 +79,9 @@ const ReusableList = ({ title, prefix }) => {
               }}
             >
               <ListItemText
+                onClick={() => {
+                  handleNavigate(item.id);
+                }}
                 sx={{ color: "#2b6cb0", cursor: "pointer" }}
                 primary={
                   <Typography variant="subtitle1" fontWeight="bold">
