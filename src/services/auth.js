@@ -129,7 +129,7 @@ export const deleteUserProfile = async (userId) => {
 };
 
 // Billing history
-export const getSubscriptionHistory = async (userId) => {
+export const getBillingHistory = async (userId) => {
   try {
     const response = await axiosInstance.get(`/billing/history/${userId}/`);
     return response.data;

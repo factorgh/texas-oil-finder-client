@@ -7,10 +7,13 @@ import {
 import { Badge, Button, Form, Input, Layout, Menu, message, Table } from "antd";
 import { useEffect, useState } from "react";
 import {
+  getBillingDueDate,
+  getBillingHistory,
   getUserProfile,
   updatePassword,
   updateUserProfile,
 } from "../services/auth";
+import moment from "moment";
 
 const { Sider, Content } = Layout;
 
@@ -21,8 +24,40 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [selectedKey, setSelectedKey] = useState("1");
+  const [billingHistory, setBillingHistory] = useState([]);
+  const storedUserId = localStorage.getItem("user");
+  const [billingDueDate, setBillingDueDate] = useState(null);
+  const subscriptionStatus =
+    localStorage.getItem("subscription_status")
+  
 
+  useEffect(() => {
+    const getBilling = async () => {
+      try {
+        const data = await getBillingHistory(storedUserId);
+        setBillingHistory(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getBilling();
+  }, [storedUserId]);
   // Fetch user details
+
+  useEffect(() => {
+    const getBillingDue = async () => {
+      try {
+        const data = await getBillingDueDate(storedUserId);
+        console.log(data.next_due_date);
+        setBillingDueDate(data.next_due_date);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getBillingDue();
+  }, [storedUserId]);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -83,13 +118,21 @@ const Profile = () => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text) => (
+        <span>{moment(text).format("MMMM Do YYYY, h:mm A")}</span>
+      ),
     },
     {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
+      render: (text) => (
+        <span>
+          <Badge status="success">${text}</Badge>
+        </span>
+      ),
     },
     {
       title: "Status",
@@ -265,7 +308,7 @@ const Profile = () => {
                   Here you will see all your billing transactions.
                 </p>
                 {/* Replace with actual billing data */}
-                <Table dataSource={[]} columns={columns} />
+                <Table dataSource={billingHistory} columns={columns} />
               </>
             )}
 
@@ -281,10 +324,10 @@ const Profile = () => {
                     Plan: <strong>Premium</strong>
                   </li>
                   <li>
-                    Status: <strong>Active</strong>
+                    Status: <strong>{subscriptionStatus}</strong>
                   </li>
                   <li>
-                    Next Billing Date: <strong>March 15, 2025</strong>
+                    Next Billing Date: <strong>{billingDueDate}</strong>
                   </li>
                 </ul>
               </>
