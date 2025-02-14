@@ -17,6 +17,7 @@ const blackItems = [
 
 const SubscriptionPlans = () => {
   const userId = localStorage.getItem("user");
+
   const handleSubscribe = async (price) => {
     try {
       const response = await createCheckoutSession(userId, price);

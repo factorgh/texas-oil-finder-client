@@ -9,7 +9,7 @@ import drillImage from "/drill.jpg";
 const HomePage = () => {
   const userId = localStorage.getItem("user");
   useEffect(() => {
-    if (!userId) return; // Prevent API call if userId is null
+    if (!userId) return;
 
     const checkSubscription = async () => {
       try {

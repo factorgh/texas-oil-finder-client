@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Button, Divider } from "antd";
+import { Button, Divider, Tag } from "antd";
 import { CheckCircle, XCircle } from "lucide-react";
 
 const PricingCard = ({
@@ -9,16 +9,23 @@ const PricingCard = ({
   height = "h-auto",
   handleSubscribe,
 }) => {
+  const subscription_status = localStorage.getItem("subscription_status");
+  const is_subscribed = subscription_status === "active";
   return (
     <div
       className={`border-2 border-blue-200 w-[350px] rounded-lg px-6 py-10 shadow-xl ${height} hover:shadow-lg transition-shadow duration-300 flex flex-col items-start bg-white`}
     >
+      <div className="flex items-center justify-end mb-2">
+        {is_subscribed ? <Tag color="blue">Subscribed</Tag> : null}
+      </div>
+
       <h3 className="text-xl font-semibold text-blue-800">{title}</h3>
       <p className="text-3xl font-bold text-gray-900 mt-2">${price}/month</p>
 
       <Button
+        disabled={is_subscribed}
         type="primary"
-        className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-700"
+        className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-500 hover:text-gray-100"
         onClick={() => handleSubscribe(price)}
       >
         Get Started
