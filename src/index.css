@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,5 +8,5 @@ html,
 body,
 :root {
   height: 100%;
-  font-family: "Cabin", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }

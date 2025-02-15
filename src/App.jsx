@@ -16,6 +16,9 @@ import ProducingOperatorDetails from "./pages/producing_operator_details";
 import Profile from "./pages/profile";
 import RegisterPage from "./pages/register";
 import SearchPage from "./pages/search";
+import LeaseDetail from "./pages/lease-detail";
+import PermitDetail from "./pages/permit-detail";
+import OperatorDetail from "./pages/operator-detail";
 
 function App() {
   return (
@@ -85,6 +88,31 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          {/* DeTAILS PAGES SECTION */}
+          <Route
+            path="lease-detail"
+            element={
+              <ProtectedRoute>
+                <LeaseDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="permit-detail"
+            element={
+              <ProtectedRoute>
+                <PermitDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="operator-detail"
+            element={
+              <ProtectedRoute>
+                <OperatorDetail />
               </ProtectedRoute>
             }
           />

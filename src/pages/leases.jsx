@@ -7,12 +7,11 @@ const LeasesPage = () => {
         Oil and Gas Leases In Texas
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
-        <div className="col-span-1">
+        {/* <div className="col-span-1">
           <ReusableList prefix={`Leases`} title="Top Leases by Production" />
-        </div>
+        </div> */}
         <div className="flex col-span-2">
-          <ReusableList prefix={`Leases`} title="Leases by County" />
-          <ReusableList prefix={`Leases`} title="" />
+          <ReusableList prefix={`Lease`} title="Leases by County" />
         </div>
       </div>
     </div>

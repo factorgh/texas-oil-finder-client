@@ -27,9 +27,9 @@ const HomePage = () => {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50">
-        <div className="">
+        <div className="flex flex-col ">
           <img
-            className="rounded-md mb-5"
+            className="rounded-md mb-5 flex-1"
             style={{ width: "100%" }}
             alt="example"
             src={drillImage}

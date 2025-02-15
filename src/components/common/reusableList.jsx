@@ -1,33 +1,32 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Card,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "antd";
 
-const ReusableList = ({ title, prefix }) => {
+const ITEMS_PER_PAGE = 25;
+
+const ReusableList = ({ prefix }) => {
   const [highestCounty, setHighestCounty] = useState([]);
+  const [filteredCounty, setFilteredCounty] = useState([]); // Filtered data
+  const [searchQuery, setSearchQuery] = useState(""); // Search state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const naviagte = useNavigate();
-  const handleNavigate = (id) => {
-    naviagte(`/details/${prefix}`, { state: { id } });
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  const handleNavigate = (id, county) => {
+    navigate(`/${prefix.toLowerCase()}-detail/`, {
+      state: { id, county, prefix },
+    });
   };
 
   const fetchHighestCounty = async () => {
     setIsLoading(true);
     try {
       const res = await axios.get("http://127.0.0.1:8000/counties/");
-
       setHighestCounty(res.data);
+      setFilteredCounty(res.data); // Initially, filtered data is the same as fetched data
     } catch (err) {
       console.error(err.message);
       setError("Failed to load data");
@@ -40,61 +39,68 @@ const ReusableList = ({ title, prefix }) => {
     fetchHighestCounty();
   }, []);
 
+  // Handle search input change
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    // Filter items based on the query
+    const filtered = highestCounty.filter((item) =>
+      item.name.toLowerCase().includes(query)
+    );
+    setFilteredCounty(filtered);
+    setCurrentPage(1); // Reset to first page after filtering
+  };
+
+  // Pagination logic
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentItems = filteredCounty.slice(startIndex, endIndex);
+
   return (
-    <Card sx={{ width: "100%", borderRadius: 2, boxShadow: 2, p: 2 }}>
-      <Typography variant="h6" fontWeight="bold " sx={{ mb: 2 }}>
-        {title}
-      </Typography>
-      {error && <Typography color="error">{error}</Typography>}
-      {isLoading && <CircularProgress />}
-      <InfiniteScroll
-        dataLength={highestCounty.length}
-        hasMore={highestCounty.length < 50}
-        loader={
-          <CircularProgress
-            size={24}
-            sx={{ display: "block", mx: "auto", my: 2 }}
-          />
-        }
-        endMessage={
-          <Divider sx={{ mt: 2 }}>It is all, nothing more 🤐</Divider>
-        }
-      >
-        <List
-          sx={{
-            maxHeight: 600,
-            overflow: "auto",
-            borderRadius: 2,
-            bgcolor: "background.paper",
-          }}
-        >
-          {highestCounty.map((item, index) => (
-            <ListItem
+    <div className="w-full bg-white p-4">
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by name..."
+        value={searchQuery}
+        onChange={handleSearch}
+        className="w-full p-2 mb-4 border rounded-md text-sm focus:outline-none focus:ring focus:border-blue-400"
+      />
+
+      {error && <p className="text-red-500">{error}</p>}
+      {isLoading && <div className="text-center my-4 animate-spin">🔄</div>}
+
+      <div>
+        {currentItems.length > 0 ? (
+          currentItems.map((item, index) => (
+            <div
               key={index}
-              sx={{
-                bgcolor: index % 2 === 0 ? "#f5f5f5" : "#fff",
-                borderRadius: 1,
-                mb: 1,
-                color: "#2b6cb0",
-              }}
+              className="py-2 px-3 border-b flex items-center justify-between text-[12px] hover:bg-blue-100 cursor-pointer transition-all duration-200"
+              onClick={() => handleNavigate(item.id, item.name)}
             >
-              <ListItemText
-                onClick={() => {
-                  handleNavigate(item.id);
-                }}
-                sx={{ color: "#2b6cb0", cursor: "pointer" }}
-                primary={
-                  <Typography variant="subtitle1" fontWeight="bold">
-                    {item.name.split(" ")[0] + " " + prefix}
-                  </Typography>
-                }
-                secondary={item.county}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </InfiniteScroll>
-    </Card>
+              <span className="text-blue-600 ">
+                {item.name.split(" ")[0] + " " + prefix}s
+              </span>
+              <span className="text-gray-600 ">{item.county}</span>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-center py-2">No results found.</p>
+        )}
+      </div>
+
+      <div className="flex justify-center mt-4">
+        <Pagination
+          current={currentPage}
+          total={filteredCounty.length}
+          pageSize={ITEMS_PER_PAGE}
+          onChange={(page) => setCurrentPage(page)}
+          showSizeChanger={false}
+        />
+      </div>
+    </div>
   );
 };
 

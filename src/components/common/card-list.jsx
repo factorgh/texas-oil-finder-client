@@ -1,85 +1,70 @@
 /* eslint-disable react/prop-types */
-import { Card, Descriptions, Divider } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const MyCardWithDescription = ({ title }) => {
-  const [summaryData, setSummaryData] = useState([]);
+  const [summaryData, setSummaryData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchSummaryData();
+  }, []);
 
   const fetchSummaryData = async () => {
     setIsLoading(true);
     try {
       const res = await axios.get("http://127.0.0.1:8000/summary");
-      console.log(res.data);
       setSummaryData(res.data);
     } catch (err) {
-      console.error(err.message);
       setError("Failed to load data");
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchSummaryData();
-  }, []);
-
   return (
-    <Card
-      style={{
-        width: "100%",
-        height: "600px",
-        borderRadius: "8px",
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-        padding: "0px",
-      }}
-      title={
-        <div
-          style={{
-            fontWeight: "bold",
-            fontSize: "16px",
-            borderRadius: "4px",
-          }}
-        >
-          {title}
-        </div>
-      }
-    >
-      {error && <div style={{ color: "red" }}>{error}</div>}
+    <div className="bg-white shadow-lg rounded-lg border p-6 w-full max-w-2xl mx-auto flex-1">
+      {/* Card Header */}
+      <h2 className="text-lg font-semibold text-gray-800 border-b pb-2">
+        {title}
+      </h2>
 
-      <div style={{ marginBottom: "16px" }}>
-        <Descriptions bordered column={1} loading={isLoading}>
-          <Descriptions.Item label="Producing Leases">
-            <span className="text-blue-800 text-xl hover:text-blue-900">
-              {summaryData.total_leases || "N/A"}
-            </span>
-          </Descriptions.Item>
-          <Descriptions.Item label="Producing Operators">
-            <span className="text-blue-800 text-xl hover:text-900">
-              {summaryData.total_operators || "N/A"}
-            </span>
-          </Descriptions.Item>
-          <Descriptions.Item label="Drilled Permits">
-            <span className="text-blue-800 text-xl hover:text-900">
-              {summaryData.total_permits || "N/A"}
-            </span>
-          </Descriptions.Item>
-          <Descriptions.Item label="BBLS of Oil Produced in Jul 2024">
-            <span className="text-blue-800 text-xl hover:text-900">
-              {summaryData.bbsl_of_oil || "N/A"}
-            </span>
-          </Descriptions.Item>
-          <Descriptions.Item label="MCF of Gas Produced in Jul 2024">
-            <span className="text-blue-800 text-xl hover:text-900">
-              {summaryData.mcf_of_gas || "N/A"}
-            </span>
-          </Descriptions.Item>
-        </Descriptions>
-        <Divider />
-      </div>
-    </Card>
+      {/* Error Message */}
+      {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+
+      {/* Loading State */}
+      {isLoading ? (
+        <p className="text-gray-500 text-center mt-4">Loading...</p>
+      ) : (
+        <div className="mt-4 space-y-3">
+          <InfoItem label="Producing Leases" value={summaryData.total_leases} />
+          <InfoItem
+            label="Producing Operators"
+            value={summaryData.total_operators}
+          />
+          <InfoItem label="Drilled Permits" value={summaryData.total_permits} />
+          <InfoItem
+            label="BBLS of Oil Produced in Jul 2024"
+            value={summaryData.bbsl_of_oil}
+          />
+          <InfoItem
+            label="MCF of Gas Produced in Jul 2024"
+            value={summaryData.mcf_of_gas}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Reusable Component for Displaying Info Items
+const InfoItem = ({ label, value }) => {
+  return (
+    <div className="flex justify-between text-sm border-b pb-2">
+      <span className="text-gray-600">{label}</span>
+      <span className="text-blue-700 font-semibold">{value || "N/A"}</span>
+    </div>
   );
 };
 

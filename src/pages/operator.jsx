@@ -7,15 +7,15 @@ const OperatorPage = () => {
         Oil and Gas Operators In Texas
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
-        <div className="col-span-1">
+        {/* <div className="col-span-1">
           <ReusableList
             prefix={`Operator`}
             title="Top Operators by Production"
           />
-        </div>
+        </div> */}
         <div className="flex col-span-2">
           <ReusableList prefix={`Operator`} title="Operator by County" />
-          <ReusableList prefix={`Operator`} title="" />
+          
         </div>
       </div>
     </div>
