@@ -1,6 +1,9 @@
 import ReusableList from "../components/common/reusableList";
+import TopCounty from "../components/common/Top-County";
+import useFetchTopLeases from "../hooks/useFetchTopLeases";
 
 const LeasesPage = () => {
+  const topLeases = useFetchTopLeases();
   return (
     <div className="">
       <h1 className="text-3xl font-bold text-[#2B2B2B] mb-3">
@@ -10,8 +13,9 @@ const LeasesPage = () => {
         {/* <div className="col-span-1">
           <ReusableList prefix={`Leases`} title="Top Leases by Production" />
         </div> */}
-        <div className="flex col-span-2">
-          <ReusableList prefix={`Lease`} title="Leases by County" />
+        <div className="flex gap-10 mt-5">
+          <TopCounty data={topPermits.counties} prefix="Permit" />
+          <ReusableList prefix="Permit" title="Leases by County" />
         </div>
       </div>
     </div>

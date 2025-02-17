@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button, Divider, Tag } from "antd";
 import { CheckCircle, XCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PricingCard = ({
   title,
@@ -11,6 +12,10 @@ const PricingCard = ({
 }) => {
   const subscription_status = localStorage.getItem("subscription_status");
   const is_subscribed = subscription_status === "active";
+  const isLog = localStorage.getItem("isLoggedIn");
+  const isLoggedIn = isLog === "true";
+  const navigate = useNavigate();
+  const handleSignUp = () => navigate("/register");
   return (
     <div
       className={`border-2 border-blue-200 w-[350px] rounded-lg px-6 py-10 shadow-xl ${height} hover:shadow-lg transition-shadow duration-300 flex flex-col items-start bg-white`}
@@ -22,14 +27,25 @@ const PricingCard = ({
       <h3 className="text-xl font-semibold text-blue-800">{title}</h3>
       <p className="text-3xl font-bold text-gray-900 mt-2">${price}/month</p>
 
-      <Button
-        disabled={is_subscribed}
-        type="primary"
-        className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-500 hover:text-gray-100"
-        onClick={() => handleSubscribe(price)}
-      >
-        Get Started
-      </Button>
+      {isLoggedIn ? (
+        <Button
+          disabled={is_subscribed}
+          type="primary"
+          className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-500 hover:text-gray-100"
+          onClick={() => handleSubscribe(price)}
+        >
+          Get Started
+        </Button>
+      ) : (
+        <Button
+          disabled={is_subscribed}
+          type="primary"
+          className="my-5 w-full p-5 bg-blue-600 hover:bg-blue-500 hover:text-gray-100"
+          onClick={() => handleSignUp()}
+        >
+          Sign Up
+        </Button>
+      )}
       <Divider>
         <span className="text-gray-600">Features Included</span>
       </Divider>
