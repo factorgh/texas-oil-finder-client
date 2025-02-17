@@ -15,16 +15,16 @@ const RegisterPage = () => {
       console.log("Success:", values);
       const res = await register(values);
       console.log("Registration successful:", res);
-      const { token, userId } = res;
+      const { token, user_id } = res;
 
       localStorage.clear();
       localStorage.setItem("token", token);
-      localStorage.setItem("user", userId);
+      localStorage.setItem("user", user_id);
       localStorage.setItem("isLoggedIn", true);
 
       message.success("Registration successful! Redirecting to payment...");
-
-      await handleSubscribe(9, userId); // Ensure price is a number
+      console.log(user_id);
+      await handleSubscribe(9, user_id); // Ensure price is a number
     } catch (error) {
       console.error("Error registering:", error);
       message.error(
@@ -38,13 +38,17 @@ const RegisterPage = () => {
 
   const handleSubscribe = async (price, userId) => {
     try {
+      console.log("Opening a new tab...");
+      const newTab = window.open("", "_blank"); // Open a blank tab first
+
       const response = await createCheckoutSession(userId, price);
       console.log("Stripe Response:", response);
 
       if (response.session_url) {
         console.log("Redirecting to:", response.session_url);
-        window.open(response.session_url, "_blank"); // Open in a new tab
+        newTab.location.href = response.session_url; // Change URL of the new tab
       } else {
+        newTab.close(); // Close tab if no session URL
         console.error("Missing session URL:", response);
         message.error("Subscription session could not be created.");
       }
