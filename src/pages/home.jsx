@@ -8,6 +8,7 @@ import drillImage from "/drill.jpg";
 
 const HomePage = () => {
   const userId = localStorage.getItem("user");
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   useEffect(() => {
     if (!userId) return;
 
@@ -41,14 +42,16 @@ const HomePage = () => {
       </div>
       <Divider className="mt-10" />
       {/* Subscriptions section */}
-      <div id="subscriptions" className="  bg-gray-50 p-5 rounded">
-        <div className="flex items-center justify-center mt-10">
-          <h3 className="text-3xl font-bold text-[#2B2B2B] mb-3 text-center max-w-md">
-            Tailored plan for full access to the platform
-          </h3>
+      {!isLoggedIn && (
+        <div id="subscriptions" className="  bg-gray-50 p-5 rounded">
+          <div className="flex items-center justify-center mt-10">
+            <h3 className="text-3xl font-bold text-[#2B2B2B] mb-3 text-center max-w-md">
+              Tailored plan for full access to the platform
+            </h3>
+          </div>
+          <SubscriptionPlans />
         </div>
-        <SubscriptionPlans />
-      </div>
+      )}
       <Divider className="mt-10" />
     </div>
   );

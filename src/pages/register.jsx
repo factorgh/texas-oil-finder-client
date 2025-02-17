@@ -1,31 +1,62 @@
+import { useState } from "react";
 import { Button, Card, Form, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { register } from "../services/auth";
+import { createCheckoutSession, register } from "../services/auth";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // Loading state
+
   const rules = [{ required: true, message: "required" }];
+
   const onFinish = async (values) => {
+    setLoading(true); // Start loading
     try {
       console.log("Success:", values);
       const res = await register(values);
-      console.log("registration successful:", res);
+      console.log("Registration successful:", res);
       const { token, userId } = res;
+
       localStorage.clear();
       localStorage.setItem("token", token);
       localStorage.setItem("user", userId);
       localStorage.setItem("isLoggedIn", true);
 
-      message.success("You have registered successfully!");
-      navigate("/login");
+      message.success("Registration successful! Redirecting to payment...");
+
+      await handleSubscribe(9, userId); // Ensure price is a number
     } catch (error) {
-      console.log("Error egistering:", error);
-      message.error("Failed to register. Please try again.");
+      console.error("Error registering:", error);
+      message.error(
+        error?.response?.data?.message ||
+          "Failed to register. Please try again."
+      );
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
+
+  const handleSubscribe = async (price, userId) => {
+    try {
+      const response = await createCheckoutSession(userId, price);
+      console.log("Stripe Response:", response);
+
+      if (response.session_url) {
+        console.log("Redirecting to:", response.session_url);
+        window.open(response.session_url, "_blank"); // Open in a new tab
+      } else {
+        console.error("Missing session URL:", response);
+        message.error("Subscription session could not be created.");
+      }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      message.error("Failed to start subscription. Please try again.");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center h-screen">
-      <Card className=" w-[400px] border border-gray-300 shadow-md">
+      <Card className="w-[400px] border border-gray-300 shadow-md">
         <h2 className="text-3xl font-bold text-center mb-3 text-blue-900">
           Register
         </h2>
@@ -43,12 +74,18 @@ const RegisterPage = () => {
           <Form.Item label="Password" name="password" rules={rules}>
             <Input.Password
               className="h-10"
-              placeholder="Please enter your password"
+              placeholder="Enter your password"
             />
           </Form.Item>
           <Form.Item label=" ">
-            <Button type="primary" className="w-full" htmlType="submit">
-              Submit
+            <Button
+              type="primary"
+              className="w-full"
+              htmlType="submit"
+              loading={loading}
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit"}
             </Button>
           </Form.Item>
         </Form>
