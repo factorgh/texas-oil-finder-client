@@ -1,7 +1,7 @@
 import { Pagination, Spin } from "antd";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../../services/auth";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -20,7 +20,7 @@ const HighestCounty = () => {
   const fetchHighestCounty = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://127.0.0.1:8000/counties/");
+      const res = await axiosInstance.get("/counties/");
       setHighestCounty(res.data);
       setFilteredCounties(res.data);
     } catch (err) {

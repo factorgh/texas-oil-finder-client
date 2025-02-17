@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Table, Pagination, Spin, Input } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Tag } from "antd";
+import { axiosInstance } from "../services/auth";
 
 const applicationTypeColors = {
   "Re-Enter": "orange",
@@ -23,7 +24,7 @@ const ITEMS_PER_PAGE = 50;
 const fetchPermits = async ({ queryKey }) => {
   const [, page, countyId, searchTerm] = queryKey;
 
-  const response = await axios.get("http://localhost:8000/permits/", {
+  const response = await axiosInstance.get("/permits/", {
     params: {
       county_id: countyId,
       skip: (page - 1) * ITEMS_PER_PAGE,

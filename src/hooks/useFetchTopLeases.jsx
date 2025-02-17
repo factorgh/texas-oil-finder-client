@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
+import { axiosInstance } from "../services/auth";
 
 const useFetchTopLeases = () => {
   const [counties, setCounties] = useState([]);
@@ -9,7 +10,7 @@ const useFetchTopLeases = () => {
   const fetchCounties = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://127.0.0.1:8000/counties/top-leases/");
+      const res = await axiosInstance.get("/counties/top-leases/");
 
       setCounties(res.data);
     } catch (err) {

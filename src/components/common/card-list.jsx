@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { axiosInstance } from "../../services/auth";
 
 const MyCardWithDescription = ({ title }) => {
   const [summaryData, setSummaryData] = useState({});
@@ -14,7 +15,7 @@ const MyCardWithDescription = ({ title }) => {
   const fetchSummaryData = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://127.0.0.1:8000/summary");
+      const res = await axiosInstance.get("/summary");
       setSummaryData(res.data);
     } catch (err) {
       setError("Failed to load data");

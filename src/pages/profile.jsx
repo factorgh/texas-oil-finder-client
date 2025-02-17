@@ -27,9 +27,7 @@ const Profile = () => {
   const [billingHistory, setBillingHistory] = useState([]);
   const storedUserId = localStorage.getItem("user");
   const [billingDueDate, setBillingDueDate] = useState(null);
-  const subscriptionStatus =
-    localStorage.getItem("subscription_status")
-  
+  const subscriptionStatus = localStorage.getItem("subscription_status");
 
   useEffect(() => {
     const getBilling = async () => {
@@ -142,7 +140,7 @@ const Profile = () => {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
+      render: () => (
         <span>
           <a href="#">Receipt</a>
         </span>

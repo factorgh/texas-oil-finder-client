@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Table, Pagination, Spin, Input } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { axiosInstance } from "../services/auth";
 
 const ITEMS_PER_PAGE = 50;
 
 const fetchOperators = async ({ queryKey }) => {
   const [, page, countyId, searchTerm] = queryKey;
 
-  const response = await axios.get("http://localhost:8000/operators/", {
+  const response = await axiosInstance.get("/operators/", {
     params: {
       county_id: countyId,
       skip: (page - 1) * ITEMS_PER_PAGE,

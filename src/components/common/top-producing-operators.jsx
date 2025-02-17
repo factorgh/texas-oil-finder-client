@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Card, Divider, List, Skeleton } from "antd";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../../services/auth";
 
 const TopProducingOperators = ({ title }) => {
   const [highestCounty, setHighestCounty] = useState([]);
@@ -15,7 +16,7 @@ const TopProducingOperators = ({ title }) => {
   const fetchHighestCounty = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/v1/operator");
+      const res = await axiosInstance.get("/operator");
       setHighestCounty(res.data);
     } catch (err) {
       console.error(err.message);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
+import { axiosInstance } from "../services/auth";
 
 const useFetchTopPermits = () => {
   const [counties, setCounties] = useState([]);
@@ -9,9 +10,7 @@ const useFetchTopPermits = () => {
   const fetchCounties = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get(
-        "http://127.0.0.1:8000/counties/top-permits/"
-      );
+      const res = await axiosInstance.get("/counties/top-permits/");
 
       console.log(res.data);
       setCounties(res.data);

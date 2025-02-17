@@ -5,9 +5,10 @@ console.log(token);
 if (!token) {
   console.error("No token found, user not authenticated");
 }
+// const baseURL = import.meta.env.VITE_API_URL;
 
 export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://texasapi.adroit360.com",
   headers: {
     Authorization: `Bearer ${token} `,
   },
@@ -46,13 +47,10 @@ export const createCheckoutSession = async (userId, price) => {
   const updatedUserId = Number(userId);
 
   try {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/create-checkout-session/",
-      {
-        user_id: updatedUserId,
-        price: price,
-      }
-    );
+    const response = await axiosInstance.post("/create-checkout-session/", {
+      user_id: updatedUserId,
+      price: price,
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating checkout session:", error);
@@ -67,8 +65,8 @@ export const getUserSubscriptionStatus = async (userId) => {
 
   try {
     const updatedUserId = Number(userId);
-    const response = await axios.get(
-      `http://127.0.0.1:8000/subscription_status/${updatedUserId}/`
+    const response = await axiosInstance.get(
+      `/subscription_status/${updatedUserId}/`
     );
     return response.data;
   } catch (error) {
@@ -148,5 +146,3 @@ export const getBillingDueDate = async (userId) => {
     throw error;
   }
 };
-
-

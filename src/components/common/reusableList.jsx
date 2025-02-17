@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../services/auth";
+
 import { useNavigate } from "react-router-dom";
 import { Pagination, Spin } from "antd";
 
@@ -24,7 +25,7 @@ const ReusableList = ({ prefix }) => {
   const fetchHighestCounty = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://127.0.0.1:8000/counties/");
+      const res = await axiosInstance.get("/counties/");
       setHighestCounty(res.data);
       setFilteredCounty(res.data); // Initially, filtered data is the same as fetched data
     } catch (err) {
