@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Pagination } from "antd";
+import { Pagination, Spin } from "antd";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -70,7 +70,11 @@ const ReusableList = ({ prefix }) => {
       />
 
       {error && <p className="text-red-500">{error}</p>}
-      {isLoading && <div className="text-center my-4 animate-spin">🔄</div>}
+      {isLoading && (
+        <div className="text-center my-4 animate-spin">
+          <Spin size="large" />
+        </div>
+      )}
 
       <div>
         {currentItems.length > 0 ? (

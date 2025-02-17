@@ -9,15 +9,9 @@ const useFetchTopLeases = () => {
   const fetchCounties = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://127.0.0.1:8000/counties/leases/");
-      console.log(res.data.data);
-      console.log("Counties fetched:", res);
-      console.log(res.data.data);
-      const strippedCounties = res.data.map((item) =>
-        item.name.replace(/\s*County$/, "")
-      );
-      console.log(strippedCounties);
-      setCounties(strippedCounties);
+      const res = await axios.get("http://127.0.0.1:8000/counties/top-leases/");
+
+      setCounties(res.data);
     } catch (err) {
       console.error(err.message);
       setError("Failed to load data");

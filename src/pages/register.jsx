@@ -13,10 +13,11 @@ const RegisterPage = () => {
       const { token, userId } = res;
       localStorage.clear();
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(userId));
+      localStorage.setItem("user", userId);
       localStorage.setItem("isLoggedIn", true);
+
       message.success("You have registered successfully!");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log("Error egistering:", error);
       message.error("Failed to register. Please try again.");

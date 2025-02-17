@@ -1,7 +1,7 @@
-import { Pagination } from "antd";
+import { Pagination, Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 const ITEMS_PER_PAGE = 25;
 
@@ -12,7 +12,6 @@ const HighestCounty = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchHighestCounty();
@@ -42,9 +41,9 @@ const HighestCounty = () => {
     setCurrentPage(1);
   };
 
-  const handleNavigate = (id) => {
-    navigate(`/counties/oil-gas/${id}`);
-  };
+  // const handleNavigate = (id) => {
+  //   navigate(`/counties/oil-gas/${id}`);
+  // };
 
   const paginatedData = filteredCounties.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -68,7 +67,9 @@ const HighestCounty = () => {
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {isLoading ? (
-        <p className="text-center text-gray-500">Loading...</p>
+        <div className="text-center text-gray-500">
+          <Spin size="large" />
+        </div>
       ) : (
         <div>
           {paginatedData.length > 0 ? (
