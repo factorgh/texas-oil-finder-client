@@ -64,7 +64,7 @@ const PermitsPage = () => {
             className="text-[#717171] mr-2 cursor-pointer"
             size={20}
           />
-          <span className="text-blue-500 text-xl">Permits in {county}</span>
+          <span className="text-slate-800 text-xl">Permits in {county}</span>
         </h3>
         <Input.Search
           placeholder="Search Leases by name ..."
@@ -118,7 +118,7 @@ const PermitsPage = () => {
             dataSource={data?.permits || []}
             rowKey="id"
             pagination={false}
-            rowClassName={() => "text-blue-500 text-[12px] py-1"}
+            rowClassName={() => "text-slate-800 text-[12px] py-1"}
           />
 
           {/* 🔄 Pagination (Always Visible) */}

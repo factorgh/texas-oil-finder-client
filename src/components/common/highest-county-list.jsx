@@ -79,12 +79,12 @@ const HighestCounty = () => {
                 className="py-2 px-3 border-b flex items-center justify-between text-[13px] hover:bg-blue-100 cursor-pointer transition duration-200"
                 onClick={() => console.log(item.id)}
               >
-                <span className="text-blue-600 ">{item.name}</span>
-                <span className="text-gray-600">{item.county}</span>
+                <span className="text-slate-800 ">{item.name}</span>
+                <span className="text-slate-800">{item.county}</span>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-center py-2">No results found.</p>
+            <p className="text-slate-500 text-center py-2">No results found.</p>
           )}
         </div>
       )}

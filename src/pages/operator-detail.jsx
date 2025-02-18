@@ -98,7 +98,7 @@ const OperatorDetail = () => {
             dataSource={data?.operators || []} // ✅ Fixed key name
             rowKey="id"
             pagination={false}
-            rowClassName={() => "text-blue-500 text-[12px] py-1"}
+            rowClassName={() => "text-slate-800 text-[12px] py-1"}
           />
           {/* 🔄 Pagination (Always Visible) */}
           <div className="flex justify-center mt-4">

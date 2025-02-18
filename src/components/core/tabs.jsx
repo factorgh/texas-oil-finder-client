@@ -53,7 +53,7 @@ const Tabs = () => {
   };
 
   return (
-    <div className="-mt-8 p-4 bg-blue-100 rounded-lg shadow-lg grid grid-cols-2 lg:grid-cols-6 2xl:grid-cols-5 items-center gap-4">
+    <div className="-mt-8 p-4 bg-blue-100 rounded-lg shadow-lg grid grid-cols-2 lg:grid-cols-6 2xl:grid-cols-6 items-center gap-4">
       {filter.map((item) => {
         const isDisabled =
           !isSubscribed &&

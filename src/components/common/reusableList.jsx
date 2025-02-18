@@ -85,10 +85,10 @@ const ReusableList = ({ prefix }) => {
               className="py-2 px-3 border-b flex items-center justify-between text-[12px] hover:bg-blue-100 cursor-pointer transition-all duration-200"
               onClick={() => handleNavigate(item.id, item.name)}
             >
-              <span className="text-blue-600 ">
+              <span className="text-slate-800">
                 {item.name.split(" ")[0] + " " + prefix}s
               </span>
-              <span className="text-gray-600 ">{item.county}</span>
+              <span className="text-slate-800 ">{item.county}</span>
             </div>
           ))
         ) : (

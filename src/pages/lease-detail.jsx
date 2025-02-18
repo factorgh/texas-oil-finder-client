@@ -30,6 +30,7 @@ const LeaseDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id, county } = location.state || {};
+  console.log(id, county);
 
   const { data, isLoading } = useQuery({
     queryKey: ["leases", currentPage, id, searchTerm],
@@ -38,7 +39,7 @@ const LeaseDetail = () => {
     enabled: !!id,
   });
 
-  const totalLeases = data?.total ?? 0; // ✅ Ensure total count is always a number
+  const totalLeases = data?.total ?? 0;
 
   return (
     <div style={{ padding: 20 }}>

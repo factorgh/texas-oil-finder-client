@@ -21,7 +21,7 @@ const TopCounty = ({ data, prefix }) => {
             key={item}
             className="bg-gray-50 shadow-lg hover:bg-blue-100 rounded-md px-4 py-2 transition-all cursor-pointer "
           >
-            <span className="text-[12px] text-blue-500 font-medium ">
+            <span className="text-[12px] text-slate-800 font-medium ">
               {item.county_name}
             </span>
           </li>
