@@ -80,8 +80,8 @@ const CountyDetailPage = () => {
         </div>
       </APIProvider>
       {/* <CountyDetailMap /> */}
-      <CountyDetailChart />
-      <CountyDetailChart />
+      <CountyDetailChart title={"Drilling permits by year"} />
+      <CountyDetailChart title={"Oil and Gas production by year"} />
 
       {/* Top sections */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">

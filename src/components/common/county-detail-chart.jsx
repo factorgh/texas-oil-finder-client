@@ -77,10 +77,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const CountyDetailChart = () => {
+const CountyDetailChart = ({title}) => {
   return (
     <Card
-      title="Recent Drilling Permits"
+      title={title}
       style={{
         width: "100%",
         borderRadius: "8px",
