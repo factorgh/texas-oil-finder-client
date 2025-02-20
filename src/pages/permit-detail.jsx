@@ -72,7 +72,7 @@ const PermitsPage = () => {
         </div>
         <div style={{ display: "flex", gap: "8px" }}>
           <Input
-            placeholder="Search Leases by name ..."
+            placeholder="Search permit by name ..."
             allowClear
             value={searchInput}
             onChange={(e) => {
