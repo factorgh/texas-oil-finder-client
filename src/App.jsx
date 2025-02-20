@@ -19,6 +19,7 @@ import SearchPage from "./pages/search";
 import LeaseDetail from "./pages/lease-detail";
 import PermitDetail from "./pages/permit-detail";
 import OperatorDetail from "./pages/operator-detail";
+import CountyDetailPage from "./pages/CountyDetailPage";
 
 function App() {
   return (
@@ -113,6 +114,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <OperatorDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="county-detail"
+            element={
+              <ProtectedRoute>
+                <CountyDetailPage />
               </ProtectedRoute>
             }
           />

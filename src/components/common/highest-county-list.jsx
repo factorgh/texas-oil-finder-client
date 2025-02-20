@@ -2,6 +2,7 @@ import { Pagination, Spin } from "antd";
 
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -12,6 +13,13 @@ const HighestCounty = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  const handleNavigate = (id, county) => {
+    navigate(`/county-detail/`, {
+      state: { id, county },
+    });
+  };
 
   useEffect(() => {
     fetchHighestCounty();
@@ -66,6 +74,9 @@ const HighestCounty = () => {
       </div>
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
+      {paginatedData.length === 0 && (
+        <div className="text-gray-500">No data available</div>
+      )}
       {isLoading ? (
         <div className="text-center text-gray-500">
           <Spin size="large" />
@@ -77,7 +88,7 @@ const HighestCounty = () => {
               <div
                 key={index}
                 className="py-2 px-3 border-b flex items-center justify-between text-[13px] hover:bg-blue-100 cursor-pointer transition duration-200"
-                onClick={() => console.log(item.id)}
+                onClick={() => handleNavigate(item.id, item.name)}
               >
                 <span className="text-slate-800 ">{item.name}</span>
                 <span className="text-slate-800">{item.county}</span>

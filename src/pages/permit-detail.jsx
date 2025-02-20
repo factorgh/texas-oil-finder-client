@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Table, Pagination, Spin, Input } from "antd";
+import { Table, Pagination, Spin, Input, Button } from "antd";
 import { useQuery } from "@tanstack/react-query";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Tag } from "antd";
 import { axiosInstance } from "../services/auth";
+import { SearchOutlined } from "@ant-design/icons";
 
 const applicationTypeColors = {
   "Re-Enter": "orange",
@@ -41,6 +42,7 @@ const fetchPermits = async ({ queryKey }) => {
 const PermitsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const { id, county } = location.state || {};
@@ -58,23 +60,44 @@ const PermitsPage = () => {
     <div style={{ padding: 20 }}>
       {/* 🔍 Search Bar */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="flex items-center">
-          <ArrowLeft
+        <div className="flex items-center gap-5">
+          <button
             onClick={() => navigate(-1)}
-            className="text-[#717171] mr-2 cursor-pointer"
-            size={20}
-          />
+            className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-all border w-28 p-2 rounded-md backdrop-blur"
+          >
+            <ArrowLeft size={20} />
+            <span className="text-sm font-medium">Back</span>
+          </button>
           <span className="text-slate-800 text-xl">Permits in {county}</span>
-        </h3>
-        <Input.Search
-          placeholder="Search Leases by name ..."
-          allowClear
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1); // ✅ Reset to first page on search
-          }}
-          style={{ width: 250 }}
-        />
+        </div>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <Input
+            placeholder="Search Leases by name ..."
+            allowClear
+            value={searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+
+              // ✅ Reset search if input is cleared
+              if (e.target.value === "") {
+                setSearchTerm(""); // Reset search query
+                setCurrentPage(1); // Reset to first page
+              }
+            }}
+            style={{ width: 250 }}
+            onPressEnter={() => {
+              setSearchTerm(searchInput); // ✅ Trigger API request
+              setCurrentPage(1);
+            }}
+          />
+          <Button
+            icon={<SearchOutlined />}
+            onClick={() => {
+              setSearchTerm(searchInput); // ✅ Trigger API request
+              setCurrentPage(1);
+            }}
+          />
+        </div>
       </div>
 
       {isLoading ? (

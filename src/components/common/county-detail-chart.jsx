@@ -77,7 +77,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const CustomChart = () => {
+const CountyDetailChart = () => {
   return (
     <Card
       title="Recent Drilling Permits"
@@ -111,4 +111,4 @@ const CustomChart = () => {
   );
 };
 
-export default CustomChart;
+export default CountyDetailChart;
